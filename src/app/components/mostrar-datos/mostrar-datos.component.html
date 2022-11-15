@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  </head>
+  <body>
+    <div class="main-block">
+
+      <h1>Resumen de gastos del mes de Noviembre</h1>
+      <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Responsable</th>
+                <th>Departamento</th>
+                <th>Descripcion</th>
+                <th>Costo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let gasto of gastosPorMostrar; let i = index">
+                <td>{{gasto.responsable}}</td>
+                <td>{{gasto.departamento}}</td>
+                <td>{{gasto.descripcion}}</td>
+                <td>₡ {{gasto.monto}}</td>
+            </tr>
+        </tbody>
+      </table>
+      
+      <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Top</th>
+                <th>Departamento</th>
+                <th>Gastos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let number of [0,1,2]; let i = index;">
+                <td>{{i + 1}}</td>
+                <td>{{departamentoMasGasto[i].departamento}}</td>
+                <td>{{departamentoMasGasto[i].gasto}}</td>
+            </tr>
+        </tbody>
+      </table>      
+    </div>
+  </body>
+</html>
+
