@@ -47,14 +47,17 @@ export class MostrarDatosComponent implements OnInit {
   departamentoMasGasto:Departamento[] = [
   ];
 
+  gastoTotal:number = 0;
+
 
   ngOnInit(): void {
     this.reordenarDepartamentos();
   }
 
   reordenarDepartamentos(){
+    this.gastoTotal = 0;
     for(let gasto of this.gastosPorMostrar){      
-
+      this.gastoTotal+=gasto.monto;
       const found = this.departamentoMasGasto.find((obj) =>{
         return obj.departamento === gasto.departamento; 
       });
