@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Gasto } from 'src/app/models/gasto';
 import { Departamento } from 'src/app/models/departamento';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-mostrar-datos',
@@ -9,48 +10,20 @@ import { Departamento } from 'src/app/models/departamento';
 })
 export class MostrarDatosComponent implements OnInit {
 
-  constructor() { }
+  constructor(private api:DataService) { }
   
  gastosPorMostrar:Gasto[] = [
-    {
-      monto:1000,
-      descripcion:"Descripcion 1",
-      responsable:"Juanito",
-      departamento:"TTO"
-    },
-    {
-      monto:60000,
-      descripcion:"Descripcion 2",
-      responsable:"Juanita",
-      departamento:"Contabilidad"
-    },
-    {
-      monto:1000,
-      descripcion:"Descripcion 3",
-      responsable:"Marcela",
-      departamento:"Gerencia"
-    },
-    {
-      monto:63000,
-      descripcion:"Descripcion 4",
-      responsable:"Rodolfo",
-      departamento:"Limpieza"
-    },
-    {
-      monto:1000,
-      descripcion:"Descripcion 4",
-      responsable:"Rodolfo",
-      departamento:"TTO"
-    }
   ];
 
   departamentoMasGasto:Departamento[] = [
   ];
 
   gastoTotal:number = 0;
+  mesActual:number = new Date().getMonth();
 
 
   ngOnInit(): void {
+    this.obtenerDatos();
     this.reordenarDepartamentos();
   }
 
@@ -70,6 +43,20 @@ export class MostrarDatosComponent implements OnInit {
     }
 
     this.departamentoMasGasto.sort((a,b) => a.gasto > b.gasto ? -1 : 1)
+
+  }
+
+  obtenerDatos(){
+    this.api.obtenerGastos()
+    .subscribe(response=>{
+      for(let gasto of response){
+        let date = new Date(gasto.fecha);
+
+        if(date.getMonth() == this.mesActual)  this.gastosPorMostrar.push(gasto)
+      }
+      this.reordenarDepartamentos()
+
+    });
 
   }
 
